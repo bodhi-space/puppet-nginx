@@ -55,6 +55,8 @@ class nginx (
   $proxy_buffers          = $nginx::params::nx_proxy_buffers,
   $proxy_buffer_size      = $nginx::params::nx_proxy_buffer_size,
   $http_cfg_append        = $nginx::params::nx_http_cfg_append,
+  $nx_logdir              = $nginx::params::nx_logdir,
+  $nx_logdir_perms        = $nginx::params::nx_logdir_perms,
   $nginx_error_log        = $nginx::params::nx_nginx_error_log,
   $http_access_log        = $nginx::params::nx_http_access_log,
   $gzip                   = $nginx::params::nx_gzip,
@@ -109,6 +111,8 @@ class nginx (
   if ($http_cfg_append != false) {
     validate_hash($http_cfg_append)
   }
+  validate_string($nx_logdir)
+  validate_string($nx_logdir_perms)
   validate_string($nginx_error_log)
   validate_string($http_access_log)
   validate_hash($nginx_upstreams)
@@ -144,6 +148,8 @@ class nginx (
     proxy_buffers          => $proxy_buffers,
     proxy_buffer_size      => $proxy_buffer_size,
     http_cfg_append        => $http_cfg_append,
+    nx_logdir              => $nx_logdir,
+    nx_logdir_perms        => $nx_logdir_perms,
     nginx_error_log        => $nginx_error_log,
     http_access_log        => $http_access_log,
     gzip                   => $gzip,

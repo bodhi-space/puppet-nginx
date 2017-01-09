@@ -69,6 +69,8 @@ class nginx::params {
     /(?i-mx:sunos)/ => '/var/log/nginx',
   }
 
+  $nx_logdir_perms = '0750'
+
   $nx_pid = $::kernel ? {
     /(?i-mx:linux)/  => '/var/run/nginx.pid',
     /(?i-mx:sunos)/  => '/var/run/nginx.pid',

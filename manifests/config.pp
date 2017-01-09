@@ -34,6 +34,8 @@ class nginx::config(
   $client_max_body_size   = $nginx::params::nx_client_max_body_size,
   $proxy_buffers          = $nginx::params::nx_proxy_buffers,
   $http_cfg_append        = $nginx::params::nx_http_cfg_append,
+  $nx_logdir              = $nginx::params::nx_logdir,
+  $nx_logdir_perms        = $nginx::params::nx_logdir_perms,
   $nginx_error_log        = $nginx::params::nx_nginx_error_log,
   $http_access_log        = $nginx::params::nx_http_access_log,
   $proxy_buffer_size      = $nginx::params::nx_proxy_buffer_size,
@@ -50,6 +52,13 @@ class nginx::config(
 
   file { $nginx::params::nx_conf_dir:
     ensure => directory,
+  }
+
+  file { $nx_logdir:
+    ensure  => directory,
+    mode    => $nx_logdir_perms,
+    owner   => $nginx::params::nx_daemon_user,
+    group   => $nginx::params::nx_daemon_user,
   }
 
   file { "${nginx::params::nx_conf_dir}/conf.d":
