@@ -62,13 +62,18 @@ class nginx (
   $gzip                   = $nginx::params::nx_gzip,
   $conf_template          = $nginx::params::nx_conf_template,
   $proxy_conf_template    = $nginx::params::nx_proxy_conf_template,
-  $nginx_vhosts           = {},
+  $nginx_vhosts_defaults  = {},
   $nginx_upstreams        = {},
   $nginx_locations        = {},
   $manage_repo            = $nginx::params::manage_repo,
 ) inherits nginx::params {
 
   include stdlib
+
+  $nginx_vhosts = deep_merge(
+    $nginx_vhosts_defaults,
+    hiera_hash('nginx::nginx_vhosts',{})
+  )
 
   if (!is_string($worker_processes)) and (!is_integer($worker_processes)) {
     fail('$worker_processes must be an integer or have value "auto".')
